@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <title>TruePath Personality and Career Assessment</title>
+  <style>
+    :root{
+      --bg:#f7f5ef;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#667085;
+      --line:#e5e7eb;
+      --dark:#1f3442;
+      --green:#2f5d50;
+      --soft:#f8fafc;
+      --shadow:0 10px 24px rgba(0,0,0,.06);
+      --radius-xl:22px;
+      --radius-lg:18px;
+      --radius-md:14px;
+    }
+
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    html, body{
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(to bottom, #f7f5ef, #ffffff);
+      color:var(--ink);
+      line-height:1.55;
+      overflow-x:hidden;
+    }
+
+    img{
+      max-width:100%;
+      height:auto;
+      display:block;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1100px;
+      margin:0 auto;
+      padding:20px 14px 56px;
+    }
+
+    .hero,
+    .section-card,
+    .question-card,
+    .result-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius-xl);
+      box-shadow:var(--shadow);
+    }
+
+    .hero,
+    .section-card,
+    .result-card{
+      padding:24px;
+    }
+
+    .question-card{
+      padding:18px;
+      margin-bottom:16px;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#eee7d8;
+      color:#6e5426;
+      font-weight:700;
+      font-size:13px;
+    }
+
+    h1{
+      font-size:42px;
+      line-height:1.1;
+      margin:14px 0 10px;
+      word-wrap:break-word;
+    }
+
+    h2{
+      font-size:30px;
+      line-height:1.2;
+      margin:0 0 10px;
+    }
+
+    h3{
+      font-size:20px;
+      line-height:1.3;
+      margin:0 0 8px;
+    }
+
+    p{
+      margin:0 0 12px;
+      word-wrap:break-word;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .hero-grid,
+    .results-grid,
+    .mini-grid{
+      display:grid;
+      gap:18px;
+    }
+
+    .hero-grid{
+      grid-template-columns:1.2fr .8fr;
+      margin-top:22px;
+    }
+
+    .results-grid{
+      grid-template-columns:1.15fr .85fr;
+      margin-top:18px;
+      align-items:start;
+    }
+
+    .mini-grid{
+      grid-template-columns:1fr 1fr;
+    }
+
+    .panel{
+      border:1px solid var(--line);
+      border-radius:var(--radius-lg);
+      padding:20px;
+      background:var(--soft);
+    }
+
+    .panel.dark{
+      background:var(--dark);
+      color:#fff;
+      border-color:var(--dark);
+    }
+
+    .btn{
+      display:inline-block;
+      border:none;
+      border-radius:14px;
+      padding:14px 22px;
+      min-height:48px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      text-decoration:none;
+      text-align:center;
+      transition:all .2s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-primary{
+      background:var(--dark);
+      color:#fff;
+    }
+
+    .btn-outline{
+      background:#fff;
+      color:var(--dark);
+      border:1px solid var(--line);
+    }
+
+    .btn-green{
+      background:var(--green);
+      color:#fff;
+    }
+
+    .progress-bar{
+      width:100%;
+      height:12px;
+      border-radius:999px;
+      background:#eceff3;
+      overflow:hidden;
+      margin-top:8px;
+    }
+
+    .progress-fill{
+      width:0%;
+      height:100%;
+      background:var(--green);
+      transition:width .25s ease;
+    }
+
+    .qmeta{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:flex-start;
+      margin-bottom:12px;
+    }
+
+    .qnum{
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:11px;
+      color:var(--muted);
+      margin-bottom:6px;
+      font-weight:700;
+    }
+
+    .qtext{
+      font-size:20px;
+      font-weight:600;
+      line-height:1.4;
+    }
+
+    .trait-tag{
+      font-size:12px;
+      font-weight:700;
+      padding:7px 10px;
+      border-radius:999px;
+      background:#f1f5f9;
+      color:#475467;
+      border:1px solid #e2e8f0;
+      white-space:nowrap;
+      flex-shrink:0;
+    }
+
+    .options{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .option-btn{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+      min-height:88px;
+      width:100%;
+      padding:12px;
+      text-align:left;
+      cursor:pointer;
+      color:inherit;
+      font:inherit;
+      appearance:none;
+      -webkit-appearance:none;
+      transition:all .18s ease;
+    }
+
+    .option-btn:hover{
+      border-color:#b6bec8;
+      transform:translateY(-1px);
+    }
+
+    .option-btn.active{
+      background:var(--dark);
+      border-color:var(--dark);
+      color:#fff;
+    }
+
+    .option-btn:focus,
+    .btn:focus,
+    .popup-close:focus,
+    input:focus,
+    select:focus{
+      outline:2px solid rgba(47,93,80,.25);
+      outline-offset:2px;
+    }
+
+    .option-num{
+      font-size:18px;
+      font-weight:700;
+      margin-bottom:4px;
+    }
+
+    .submit-row{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      align-items:center;
+    }
+
+    .results{
+      display:none;
+    }
+
+    .results.show{
+      display:block;
+    }
+
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#eef2ff;
+      color:#4338ca;
+      font-size:12px;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+
+    .meter{
+      width:100%;
+      height:12px;
+      border-radius:999px;
+      background:#ecf0f3;
+      overflow:hidden;
+      margin:10px 0;
+    }
+
+    .meter-fill{
+      height:100%;
+      background:var(--green);
+    }
+
+    .strengths{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .strength{
+      padding:8px 12px;
+      border-radius:999px;
+      background:#f5f3ff;
+      color:#5b21b6;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .career-list,
+    .guidance-list{
+      margin:0;
+      padding-left:18px;
+    }
+
+    .career-list li,
+    .guidance-list li{
+      margin-bottom:6px;
+    }
+
+    .footer-note{
+      margin-top:18px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    input,
+    select{
+      width:100%;
+      padding:12px;
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      margin-top:6px;
+      font-size:16px;
+      min-height:46px;
+      background:#fff;
+      color:var(--ink);
+    }
+
+    label{
+      display:block;
+      font-size:14px;
+      color:var(--ink);
+      font-weight:600;
+    }
+
+    .success-message{
+      margin-top:12px;
+      color:var(--green);
+      font-weight:700;
+      display:none;
+    }
+
+    .popup-overlay{
+      display:none;
+      position:fixed;
+      left:0;
+      top:0;
+      right:0;
+      bottom:0;
+      background:rgba(0,0,0,0.45);
+      z-index:9999;
+      padding:16px;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .popup-box{
+      width:100%;
+      max-width:560px;
+      background:#fff;
+      border-radius:22px;
+      padding:24px;
+      box-shadow:0 20px 40px rgba(0,0,0,.18);
+      position:relative;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      max-height:85vh;
+    }
+
+    .popup-close{
+      position:absolute;
+      top:12px;
+      right:12px;
+      border:none;
+      background:#f3f4f6;
+      width:38px;
+      height:38px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:20px;
+      line-height:1;
+    }
+
+    .popup-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:20px;
+    }
+
+    .popup-actions .btn{
+      flex:1 1 180px;
+    }
+
+    @supports (height: 100dvh) {
+      .popup-box{
+        max-height:85dvh;
+      }
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,
+      .results-grid,
+      .mini-grid{
+        grid-template-columns:1fr;
+      }
+
+      .options{
+        grid-template-columns:repeat(2, 1fr);
+      }
+
+      .submit-row{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .submit-row .btn{
+        width:100%;
+      }
+    }
+
+    @media (max-width: 640px){
+      .wrap{
+        padding:16px 12px 48px;
+      }
+
+      h1{
+        font-size:30px;
+      }
+
+      h2{
+        font-size:24px;
+      }
+
+      h3{
+        font-size:18px;
+      }
+
+      .hero,
+      .section-card,
+      .result-card,
+      .question-card{
+        padding:18px;
+        border-radius:18px;
+      }
+
+      .qmeta{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .qtext{
+        font-size:18px;
+      }
+
+      .trait-tag{
+        white-space:normal;
+      }
+
+      .options{
+        grid-template-columns:1fr;
+      }
+
+      .option-btn{
+        min-height:72px;
+      }
+
+      .popup-overlay{
+        padding:10px;
+        align-items:flex-end;
+      }
+
+      .popup-box{
+        max-width:none;
+        width:100%;
+        max-height:88vh;
+        border-radius:20px 20px 0 0;
+        padding:18px;
+      }
+
+      .popup-actions{
+        flex-direction:column;
+      }
+
+      .popup-actions .btn{
+        width:100%;
+        flex:none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero" id="introSection">
+      <span class="badge">TruePath Personality and Career Assessment</span>
+      <h1>Discover how your personality and career direction connect</h1>
+      <p class="muted">
+        This assessment helps people reflect on how they are wired, what environments may fit them best,
+        and what broad career fields may be worth exploring.
+      </p>
+
+      <div class="hero-grid">
+        <div class="panel">
+          <h3>What this assessment looks at</h3>
+          <p><strong>Openness:</strong> curiosity, reflection, imagination, meaning</p>
+          <p><strong>Conscientiousness:</strong> discipline, stewardship, follow-through</p>
+          <p><strong>Extraversion:</strong> social energy, expression, influence</p>
+          <p><strong>Agreeableness:</strong> compassion, patience, cooperation</p>
+          <p><strong>Emotional Stability:</strong> resilience, calm, recovery under stress</p>
+          <p><strong>Faith Alignment:</strong> purpose, service, and values in decision-making</p>
+        </div>
+
+        <div class="panel dark">
+          <h3>How to use your results</h3>
+          <p>You will receive a profile name, strengths, growth cautions, and broad career fields to explore.</p>
+          <p>This is meant for reflection and direction, not to lock someone into one job title.</p>
+          <button class="btn btn-primary" type="button" id="startBtn">Start assessment</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="assessmentSection" style="display:none;">
+      <div class="section-card">
+        <span class="badge">Assessment in progress</span>
+        <h2>Answer based on who you usually are</h2>
+        <p class="muted">Rate each statement from strongly disagree to strongly agree.</p>
+        <div id="progressText" class="muted">0 of 35 answered</div>
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <div id="questionsContainer" style="margin-top:18px;"></div>
+
+      <div class="section-card">
+        <div class="submit-row">
+          <div>
+            <h3>Ready to view your results?</h3>
+            <p class="muted">Complete all 35 questions to unlock your profile.</p>
+          </div>
+          <button class="btn btn-primary" type="button" id="submitBtn" disabled style="opacity:.5;cursor:not-allowed;">
+            See my results
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultsSection" class="results">
+      <div class="result-card">
+        <span class="badge">Your profile</span>
+        <h2 id="archetypeTitle"></h2>
+        <p id="archetypeSummary" class="muted"></p>
+      </div>
+
+      <div class="results-grid">
+        <div id="traitResults"></div>
+
+        <div>
+          <div class="result-card" style="margin-bottom:16px;">
+            <h3>Strengths you may carry</h3>
+            <div class="strengths" id="strengthsList"></div>
+          </div>
+
+          <div class="result-card" style="margin-bottom:16px;">
+            <h3>Guidance</h3>
+            <ul class="guidance-list" id="guidanceList"></ul>
+          </div>
+
+          <div class="result-card" style="margin-bottom:16px;">
+            <h3>Best-fit career fields to explore</h3>
+            <ul class="career-list" id="careerFieldsList"></ul>
+          </div>
+
+          <div class="result-card" style="margin-bottom:16px;">
+            <h3>Vocational interest blend (RIASEC)</h3>
+            <p id="riasecCodeText" class="muted"></p>
+            <ul class="career-list" id="riasecCareerList"></ul>
+          </div>
+
+          <div class="result-card" style="margin-bottom:16px;">
+            <h3>Environment that may fit you best</h3>
+            <p id="environmentText"></p>
+          </div>
+
+          <div class="result-card" style="margin-bottom:16px;">
+            <h3>Growth caution</h3>
+            <p id="growthText"></p>
+          </div>
+
+          <div class="result-card">
+            <button class="btn btn-outline" type="button" id="retakeBtn">Retake assessment</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        © 2026 ClearPath HR Inc. All rights reserved. This assessment is a reflection tool. It is not a diagnosis and should not be the only basis for major education or employment decisions.
+      </div>
+    </section>
+  </div>
+
+  <div id="resultPopupOverlay" class="popup-overlay" aria-hidden="true">
+    <div class="popup-box" role="dialog" aria-modal="true" aria-labelledby="popupHeading">
+      <button type="button" class="popup-close" id="popupCloseBtn" aria-label="Close">×</button>
+
+      <div class="badge" style="margin-bottom:10px;">Optional next step</div>
+
+      <h3 id="popupHeading" style="margin-top:0;">Would you like to share your information or support ClearPath HR?</h3>
+      <p class="muted">This is optional. You can skip this and still view your results normally.</p>
+
+      <div style="margin-top:18px;">
+        <label for="popupAge">Age</label>
+        <input id="popupAge" type="number" min="10" max="100" placeholder="Optional" />
+      </div>
+
+      <div class="mini-grid" style="margin-top:14px;">
+        <div>
+          <label for="popupSex">Sex</label>
+          <select id="popupSex">
+            <option value="">Optional</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="popupRace">Race</label>
+          <select id="popupRace">
+            <option value="">Optional</option>
+            <option value="American Indian or Alaska Native">American Indian or Alaska Native</option>
+            <option value="Asian">Asian</option>
+            <option value="Black or African American">Black or African American</option>
+            <option value="Hispanic or Latino">Hispanic or Latino</option>
+            <option value="Native Hawaiian or Other Pacific Islander">Native Hawaiian or Other Pacific Islander</option>
+            <option value="White">White</option>
+            <option value="Two or more races">Two or more races</option>
+            <option value="Other">Other</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mini-grid" style="margin-top:14px;">
+        <div>
+          <label for="popupEmail">Email</label>
+          <input id="popupEmail" type="email" placeholder="Optional" />
+        </div>
+
+        <div>
+          <label for="popupPhone">Phone</label>
+          <input id="popupPhone" type="tel" placeholder="Optional" />
+        </div>
+      </div>
+
+      <div class="popup-actions">
+        <button type="button" class="btn btn-primary" id="shareInfoBtn">Share my info</button>
+
+        <a
+          href="https://www.paypal.com/donate/?hosted_button_id=SUEER5UA9GC5W"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-green"
+        >
+          Donate with PayPal
+        </a>
+
+        <button type="button" class="btn btn-outline" id="skipPopupBtn">No thanks, show results</button>
+      </div>
+
+      <p id="popupSuccessMsg" class="success-message">Thank you. Your information was submitted.</p>
+    </div>
+  </div>
+
+  <script>
+    var ASSESSMENT_API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+    var scaleLabels = [
+      "Strongly Disagree",
+      "Disagree",
+      "Neutral",
+      "Agree",
+      "Strongly Agree"
+    ];
+
+    var questions = [
+      { id: 1, trait: "extraversion", key: "forward", text: "I feel energized after spending time with other people." },
+      { id: 2, trait: "extraversion", key: "forward", text: "I am comfortable starting conversations with new people." },
+      { id: 3, trait: "extraversion", key: "reverse", text: "I prefer to stay in the background in most group settings." },
+      { id: 4, trait: "extraversion", key: "forward", text: "I naturally encourage and motivate people around me." },
+      { id: 5, trait: "extraversion", key: "reverse", text: "I usually wait for others to take the lead socially." },
+      { id: 6, trait: "extraversion", key: "forward", text: "I enjoy opportunities to speak, teach, or share with others." },
+
+      { id: 7, trait: "agreeableness", key: "forward", text: "I am deeply concerned about the well-being of other people." },
+      { id: 8, trait: "agreeableness", key: "forward", text: "I try to treat people with patience, kindness, and grace." },
+      { id: 9, trait: "agreeableness", key: "reverse", text: "I can be dismissive of other people's struggles." },
+      { id: 10, trait: "agreeableness", key: "forward", text: "Others would describe me as compassionate and approachable." },
+      { id: 11, trait: "agreeableness", key: "forward", text: "I try to make people feel at ease and valued." },
+      { id: 12, trait: "agreeableness", key: "reverse", text: "I am often more focused on being right than being understanding." },
+
+      { id: 13, trait: "conscientiousness", key: "forward", text: "I follow through on responsibilities even when they are difficult." },
+      { id: 14, trait: "conscientiousness", key: "forward", text: "I like structure, planning, and clear priorities." },
+      { id: 15, trait: "conscientiousness", key: "reverse", text: "I often put off important tasks longer than I should." },
+      { id: 16, trait: "conscientiousness", key: "forward", text: "I try to steward my time, gifts, and commitments wisely." },
+      { id: 17, trait: "conscientiousness", key: "forward", text: "I pay attention to details and prefer to do things well." },
+      { id: 18, trait: "conscientiousness", key: "reverse", text: "My environment or schedule often feels scattered or disorganized." },
+
+      { id: 19, trait: "emotional_stability", key: "forward", text: "I remain fairly calm when life becomes stressful." },
+      { id: 20, trait: "emotional_stability", key: "reverse", text: "I worry about many things more than I want to." },
+      { id: 21, trait: "emotional_stability", key: "reverse", text: "My emotions can shift quickly under pressure." },
+      { id: 22, trait: "emotional_stability", key: "forward", text: "I recover reasonably well after disappointment or setbacks." },
+      { id: 23, trait: "emotional_stability", key: "forward", text: "I usually feel secure in who I am and where I am headed." },
+      { id: 24, trait: "emotional_stability", key: "reverse", text: "Fear or stress often influences my decisions." },
+
+      { id: 25, trait: "openness", key: "forward", text: "I enjoy exploring new ideas, perspectives, and possibilities." },
+      { id: 26, trait: "openness", key: "forward", text: "I am drawn to meaning, purpose, and deeper reflection." },
+      { id: 27, trait: "openness", key: "reverse", text: "I prefer familiar routines and avoid new approaches whenever possible." },
+      { id: 28, trait: "openness", key: "forward", text: "I appreciate creativity, symbolism, and imagination." },
+      { id: 29, trait: "openness", key: "forward", text: "I am open to growth and to seeing life from a new angle." },
+      { id: 30, trait: "openness", key: "reverse", text: "Abstract or reflective conversations usually do not interest me." },
+
+      { id: 31, trait: "faith_alignment", key: "forward", text: "My faith plays an active role in how I make decisions." },
+      { id: 32, trait: "faith_alignment", key: "forward", text: "I believe my life has God-given meaning and purpose." },
+      { id: 33, trait: "faith_alignment", key: "forward", text: "I regularly seek spiritual growth, wisdom, or guidance." },
+      { id: 34, trait: "faith_alignment", key: "forward", text: "I want my gifts and personality to be used in ways that honor Christ." },
+      { id: 35, trait: "faith_alignment", key: "forward", text: "I am willing to let God shape areas of my character that need growth." }
+    ];
+
+    var traitMetaLocal = {
+      openness: {
+        label: "Openness",
+        description: "Curiosity, imagination, reflection, and openness to growth.",
+        high: "You are reflective, imaginative, and drawn to meaning, creativity, and fresh perspective.",
+        low: "You tend to value familiarity, practicality, and consistency over experimentation.",
+        scripture: "Proverbs 4:7 - Wisdom is supreme; therefore get wisdom."
+      },
+      conscientiousness: {
+        label: "Conscientiousness",
+        description: "Discipline, stewardship, responsibility, and follow-through.",
+        high: "You are likely dependable, organized, and intentional with what has been entrusted to you.",
+        low: "You may be flexible and spontaneous, but can struggle with structure or consistency.",
+        scripture: "Luke 16:10 - Whoever can be trusted with very little can also be trusted with much."
+      },
+      extraversion: {
+        label: "Extraversion",
+        description: "Social energy, expression, connection, and outward influence.",
+        high: "You often gain energy from people, expression, encouragement, and visible engagement.",
+        low: "You may be more reserved, observant, and energized by quieter spaces and deeper connection.",
+        scripture: "Matthew 5:16 - Let your light shine before others."
+      },
+      agreeableness: {
+        label: "Agreeableness",
+        description: "Compassion, empathy, gentleness, and care for others.",
+        high: "You likely bring warmth, empathy, mercy, and relational sensitivity to the people around you.",
+        low: "You may be more blunt or analytical, which can be useful, but may require intentional gentleness.",
+        scripture: "Colossians 3:12 - Clothe yourselves with compassion, kindness, humility, gentleness and patience."
+      },
+      emotional_stability: {
+        label: "Emotional Stability",
+        description: "Resilience, calm, security, and steadiness under pressure.",
+        high: "You tend to remain grounded and recover more steadily when stress or disappointment appears.",
+        low: "You may feel stress more intensely, which does not define you but may shape how you need support.",
+        scripture: "Isaiah 26:3 - You will keep in perfect peace those whose minds are steadfast."
+      },
+      faith_alignment: {
+        label: "Faith Alignment",
+        description: "How intentionally faith, surrender, and spiritual growth shape your daily life.",
+        high: "Your faith appears central to your identity, values, and daily decision-making.",
+        low: "Faith may matter deeply to you, but may not yet be strongly integrated into your daily rhythms.",
+        scripture: "Proverbs 3:5-6 - Trust in the Lord with all your heart."
+      }
+    };
+
+    var archetypesLocal = {
+      faithful_builder: {
+        title: "The Faithful Builder",
+        summary: "You tend to combine stewardship, responsibility, and purpose. You may do especially well where trust, structure, and service matter.",
+        strengths: ["Dependable", "Intentional", "Trustworthy", "Purpose-driven"],
+        guidance: [
+          "Guard against tying your worth too tightly to performance.",
+          "Practice rest, grace, and balance alongside discipline.",
+          "Use your reliability as stewardship, not self-pressure."
+        ],
+        careers: ["Operations","Project management","Administration","Finance","Compliance","Education support","Healthcare support","Program support"],
+        environment: "Clear expectations, ownership, structure, accountability, and meaningful responsibility often fit you well.",
+        growth: "Beware of perfectionism, overcontrol, or carrying too much alone."
+      },
+      compassionate_servant: {
+        title: "The Compassionate Servant",
+        summary: "You naturally lean toward empathy, care, and relational trust. People may experience gentleness and safety through you.",
+        strengths: ["Empathetic","Warm","Supportive","Relational"],
+        guidance: [
+          "Remember that kindness works best with healthy boundaries.",
+          "Do not confuse self-sacrifice with losing your voice.",
+          "Let compassion stay rooted in wisdom and courage."
+        ],
+        careers: ["Counseling","Education","Human resources","Social services","Nonprofit service","Customer care","Family support roles"],
+        environment: "Service-oriented, relational, supportive settings often fit best, especially where trust and care matter.",
+        growth: "Watch for conflict avoidance, weak boundaries, or over-accommodating others."
+      },
+      encouraging_influencer: {
+        title: "The Encouraging Influencer",
+        summary: "You often bring visible energy, connection, and momentum. Your presence may encourage others and move groups forward.",
+        strengths: ["Expressive","Motivating","Engaging","Courageous"],
+        guidance: [
+          "Make room for quiet reflection and listening.",
+          "Use influence to serve, not to dominate attention.",
+          "Let outward impact stay anchored in inward depth."
+        ],
+        careers: ["Sales","Recruiting","Teaching","Training","Hospitality","Public relations","Real estate","Community outreach","Leadership roles"],
+        environment: "People-facing, team-based, visible, fast-moving environments often fit well.",
+        growth: "Guard against overcommitting, overspeaking, or neglecting reflection."
+      },
+      visionary_seeker: {
+        title: "The Visionary Seeker",
+        summary: "You are drawn to meaning, possibility, and growth. You may see patterns, ideas, and connections others miss.",
+        strengths: ["Reflective","Creative","Curious","Insightful"],
+        guidance: [
+          "Pair vision with faithful follow-through.",
+          "Invite discernment so every new idea does not become a new direction.",
+          "Let purpose become action, not only inspiration."
+        ],
+        careers: ["Writing","Creative communication","Marketing","Strategy","Research","Product development","Teaching","Entrepreneurship","Design"],
+        environment: "Flexible, idea-rich, creative, and learning-oriented settings may fit you best.",
+        growth: "Watch for restlessness, unfinished ideas, or difficulty with repetitive structure."
+      },
+      steady_anchor: {
+        title: "The Steady Anchor",
+        summary: "You often bring calm, resilience, and balance in the middle of uncertainty. Others may trust your steadiness under pressure.",
+        strengths: ["Grounded","Peaceful","Resilient","Reliable"],
+        guidance: [
+          "Stay emotionally present with others who feel life more intensely.",
+          "Do not mistake calmness for detachment.",
+          "Use steadiness to support and reassure, not to disconnect."
+        ],
+        careers: ["Operations","Administration","Client services","Healthcare settings","Project leadership","Education support","Crisis coordination","Pastoral support"],
+        environment: "Moderately structured environments where composure, reliability, and thoughtful decisions matter can fit well.",
+        growth: "Be careful not to minimize others' emotions simply because you feel steady."
+      },
+      growing_disciple: {
+        title: "The Growing Disciple",
+        summary: "Your profile shows a balanced blend of traits with room for growth, clarity, and direction. Your next step may be discovering what kind of setting energizes you most.",
+        strengths: ["Adaptable","Teachable","Balanced","Potential-rich"],
+        guidance: [
+          "Pay attention to what consistently gives you energy and peace.",
+          "Keep asking how your gifts can serve others well.",
+          "Growth often comes from noticing patterns over time."
+        ],
+        careers: ["Explore through internships, service, volunteering, shadowing, and guided trial experiences."],
+        environment: "You may need more exploration before a clear career-field pattern stands out.",
+        growth: "Do not rush to define yourself too quickly. Let clarity build with experience."
+      }
+    };
+
+    var answers = {};
+    var hasRenderedQuestions = false;
+
+    function formatTrait(trait) {
+      var map = {
+        openness: "Openness",
+        conscientiousness: "Conscientiousness",
+        extraversion: "Extraversion",
+        agreeableness: "Agreeableness",
+        emotional_stability: "Emotional Stability",
+        faith_alignment: "Faith Alignment"
+      };
+      return map[trait] || trait;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function scoreAnswer(answer, keying) {
+      return keying === "reverse" ? 6 - answer : answer;
+    }
+
+    function normalizeScore(value, count) {
+      return Math.round((value / (count * 5)) * 100);
+    }
+
+    function band(score) {
+      if (score >= 75) return "High";
+      if (score >= 45) return "Moderate";
+      return "Emerging";
+    }
+
+    function calculateScores() {
+      var sums = {
+        openness: 0,
+        conscientiousness: 0,
+        extraversion: 0,
+        agreeableness: 0,
+        emotional_stability: 0,
+        faith_alignment: 0
+      };
+
+      var counts = {
+        openness: 0,
+        conscientiousness: 0,
+        extraversion: 0,
+        agreeableness: 0,
+        emotional_stability: 0,
+        faith_alignment: 0
+      };
+
+      questions.forEach(function(q) {
+        var answer = Number(answers[q.id]);
+        if (!answer) return;
+        sums[q.trait] += scoreAnswer(answer, q.key);
+        counts[q.trait] += 1;
+      });
+
+      var normalized = {};
+      Object.keys(sums).forEach(function(key) {
+        normalized[key] = counts[key] ? normalizeScore(sums[key], counts[key]) : 0;
+      });
+
+      return normalized;
+    }
+
+    function chooseArchetypeLocal(scores) {
+      var sorted = Object.entries(scores)
+        .filter(function(entry){ return entry[0] !== "faith_alignment"; })
+        .sort(function(a, b){ return b[1] - a[1]; });
+
+      var topTrait = sorted[0] ? sorted[0][0] : null;
+      var secondTrait = sorted[1] ? sorted[1][0] : null;
+      var faith = scores.faith_alignment || 0;
+
+      if (topTrait === "conscientiousness" && faith >= 65) return archetypesLocal.faithful_builder;
+      if (topTrait === "agreeableness" && faith >= 55) return archetypesLocal.compassionate_servant;
+      if (topTrait === "extraversion") return archetypesLocal.encouraging_influencer;
+      if (topTrait === "openness") return archetypesLocal.visionary_seeker;
+      if (topTrait === "emotional_stability") return archetypesLocal.steady_anchor;
+      if (topTrait === "conscientiousness" && secondTrait === "agreeableness") return archetypesLocal.faithful_builder;
+      return archetypesLocal.growing_disciple;
+    }
+
+    function calculateRIASEC(scores) {
+      var riasec = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+      riasec.R += Math.round((scores.conscientiousness * 0.35) + (scores.emotional_stability * 0.15));
+      riasec.I += Math.round((scores.openness * 0.45) + (scores.conscientiousness * 0.15));
+      riasec.A += Math.round((scores.openness * 0.60));
+      riasec.S += Math.round((scores.agreeableness * 0.50) + (scores.faith_alignment * 0.20));
+      riasec.E += Math.round((scores.extraversion * 0.55) + (scores.faith_alignment * 0.10));
+      riasec.C += Math.round((scores.conscientiousness * 0.60));
+      return riasec;
+    }
+
+    function getTopRIASEC(riasec) {
+      return Object.entries(riasec)
+        .sort(function(a, b){ return b[1] - a[1]; })
+        .slice(0, 3)
+        .map(function(entry){ return entry[0]; });
+    }
+
+    function getRIASECLabel(code) {
+      var map = {
+        R: "Realistic",
+        I: "Investigative",
+        A: "Artistic",
+        S: "Social",
+        E: "Enterprising",
+        C: "Conventional"
+      };
+      return map[code];
+    }
+
+    function getBlendedCareerSuggestions(topCodes) {
+      var map = {
+        R: ["trades", "field operations", "technical support", "logistics"],
+        I: ["research", "analysis", "strategy", "health sciences"],
+        A: ["design", "marketing", "writing", "creative media"],
+        S: ["education", "counseling", "human resources", "community service"],
+        E: ["sales", "real estate", "business development", "leadership roles"],
+        C: ["administration", "finance support", "compliance", "project coordination"]
+      };
+
+      var suggestions = [];
+      topCodes.forEach(function(code) {
+        map[code].forEach(function(item) {
+          if (suggestions.indexOf(item) === -1) {
+            suggestions.push(item);
+          }
+        });
+      });
+      return suggestions;
+    }
+
+    function fillList(elementId, items) {
+      var list = document.getElementById(elementId);
+      list.innerHTML = "";
+      items.forEach(function(item) {
+        var li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+
+    function renderTraitResults(scores, traitMeta) {
+      var container = document.getElementById("traitResults");
+      container.innerHTML = "";
+
+      Object.keys(scores).forEach(function(trait) {
+        var meta = traitMeta[trait];
+        var value = scores[trait];
+        var level = band(value);
+
+        var card = document.createElement("div");
+        card.className = "result-card";
+        card.style.marginBottom = "16px";
+        card.innerHTML =
+          '<div class="pill">' + escapeHtml(level) + '</div>' +
+          '<h3>' + escapeHtml(meta.label) + '</h3>' +
+          '<p class="muted">' + escapeHtml(meta.description) + '</p>' +
+          '<div class="meter"><div class="meter-fill" style="width:' + value + '%"></div></div>' +
+          '<p><strong>Score:</strong> ' + value + '/100</p>' +
+          '<p>' + escapeHtml(value >= 60 ? meta.high : meta.low) + '</p>' +
+          '<p><em>' + escapeHtml(meta.scripture) + '</em></p>';
+
+        container.appendChild(card);
+      });
+    }
+
+    function buildQuestionsOnce() {
+      if (hasRenderedQuestions) return;
+
+      var container = document.getElementById("questionsContainer");
+      container.innerHTML = "";
+
+      questions.forEach(function(q, index) {
+        var card = document.createElement("div");
+        card.className = "question-card";
+        card.setAttribute("data-question-id", q.id);
+
+        var optionsHtml = "";
+        scaleLabels.forEach(function(label, i) {
+          var value = i + 1;
+          optionsHtml +=
+            '<button class="option-btn" type="button" data-question-id="' + q.id + '" data-value="' + value + '" aria-pressed="false">' +
+              '<div class="option-num">' + value + '</div>' +
+              '<div>' + escapeHtml(label) + '</div>' +
+            '</button>';
+        });
+
+        card.innerHTML =
+          '<div class="qmeta">' +
+            '<div>' +
+              '<div class="qnum">Question ' + (index + 1) + '</div>' +
+              '<div class="qtext">' + escapeHtml(q.text) + '</div>' +
+            '</div>' +
+            '<div class="trait-tag">' + escapeHtml(formatTrait(q.trait)) + '</div>' +
+          '</div>' +
+          '<div class="options">' + optionsHtml + '</div>';
+
+        container.appendChild(card);
+      });
+
+      hasRenderedQuestions = true;
+    }
+
+    function updateQuestionSelection(questionId, value) {
+      var card = document.querySelector('.question-card[data-question-id="' + questionId + '"]');
+      if (!card) return;
+
+      var buttons = card.querySelectorAll(".option-btn");
+      buttons.forEach(function(btn) {
+        var isActive = Number(btn.getAttribute("data-value")) === value;
+        if (isActive) {
+          btn.classList.add("active");
+          btn.setAttribute("aria-pressed", "true");
+        } else {
+          btn.classList.remove("active");
+          btn.setAttribute("aria-pressed", "false");
+        }
+      });
+    }
+
+    function setAnswer(id, value) {
+      answers[id] = value;
+      updateQuestionSelection(id, value);
+      updateProgress();
+    }
+
+    function updateProgress() {
+      var totalAnswered = Object.keys(answers).length;
+      var total = questions.length;
+      var percent = Math.round((totalAnswered / total) * 100);
+
+      document.getElementById("progressText").textContent = totalAnswered + " of " + total + " answered";
+      document.getElementById("progressFill").style.width = percent + "%";
+
+      var btn = document.getElementById("submitBtn");
+      if (totalAnswered === total) {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+      } else {
+        btn.disabled = true;
+        btn.style.opacity = ".5";
+        btn.style.cursor = "not-allowed";
+      }
+    }
+
+    function startAssessment() {
+      document.getElementById("introSection").style.display = "none";
+      document.getElementById("assessmentSection").style.display = "block";
+      buildQuestionsOnce();
+      updateProgress();
+      window.scrollTo(0, 0);
+    }
+
+    function showResults() {
+      var scores = calculateScores();
+      var profile = chooseArchetypeLocal(scores);
+      var riasec = calculateRIASEC(scores);
+      var topRIASEC = getTopRIASEC(riasec);
+      var riasecLabels = topRIASEC.map(function(code) {
+        return code + " - " + getRIASECLabel(code);
+      });
+      var riasecCareerSuggestions = getBlendedCareerSuggestions(topRIASEC);
+
+      document.getElementById("assessmentSection").style.display = "none";
+      document.getElementById("resultsSection").className = "results show";
+
+      document.getElementById("archetypeTitle").textContent = profile.title;
+      document.getElementById("archetypeSummary").textContent = profile.summary;
+      document.getElementById("growthText").textContent = profile.growth;
+      document.getElementById("environmentText").textContent = profile.environment;
+
+      var strengthsList = document.getElementById("strengthsList");
+      strengthsList.innerHTML = "";
+      profile.strengths.forEach(function(item) {
+        var span = document.createElement("span");
+        span.className = "strength";
+        span.textContent = item;
+        strengthsList.appendChild(span);
+      });
+
+      fillList("guidanceList", profile.guidance);
+      fillList("careerFieldsList", profile.careers);
+      fillList("riasecCareerList", riasecCareerSuggestions);
+
+      document.getElementById("riasecCodeText").textContent =
+        "Your strongest vocational-interest blend appears to be " + riasecLabels.join(", ") + ".";
+
+      renderTraitResults(scores, traitMetaLocal);
+
+      window.scrollTo(0, 0);
+
+      setTimeout(function() {
+        openResultPopup();
+      }, 350);
+    }
+
+    function openResultPopup() {
+      var overlay = document.getElementById("resultPopupOverlay");
+      overlay.style.display = "flex";
+      overlay.setAttribute("aria-hidden", "false");
+    }
+
+    function closeResultPopup() {
+      var overlay = document.getElementById("resultPopupOverlay");
+      overlay.style.display = "none";
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    function safeJsonParse(text) {
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function submitPopupInfo() {
+      var demographics = {
+        age: document.getElementById("popupAge").value || "",
+        sex: document.getElementById("popupSex").value || "",
+        race: document.getElementById("popupRace").value || "",
+        email: document.getElementById("popupEmail").value || "",
+        phone: document.getElementById("popupPhone").value || ""
+      };
+
+      if (!ASSESSMENT_API_URL || ASSESSMENT_API_URL.indexOf("PASTE_YOUR") !== -1) {
+        alert("Add your Google Apps Script web app URL first.");
+        return;
+      }
+
+      var scores = calculateScores();
+      var profile = chooseArchetypeLocal(scores);
+      var riasec = calculateRIASEC(scores);
+      var topRIASEC = getTopRIASEC(riasec);
+      var riasecLabels = topRIASEC.map(function(code) {
+        return code + " - " + getRIASECLabel(code);
+      });
+
+      var payload = {
+        demographics: demographics,
+        results: {
+          profileTitle: profile.title,
+          profileSummary: profile.summary,
+          strengths: profile.strengths,
+          careerFields: profile.careers,
+          riasecText: riasecLabels.join(", "),
+          environment: profile.environment,
+          growth: profile.growth,
+          scores: scores
+        }
+      };
+
+      var shareBtn = document.getElementById("shareInfoBtn");
+      shareBtn.disabled = true;
+      shareBtn.textContent = "Submitting...";
+
+      fetch(ASSESSMENT_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload),
+        mode: "cors"
+      })
+      .then(function(response) {
+        return response.text();
+      })
+      .then(function(text) {
+        var data = safeJsonParse(text);
+
+        if (!data || !data.ok) {
+          throw new Error((data && data.error) ? data.error : "Submission failed");
+        }
+
+        document.getElementById("popupSuccessMsg").style.display = "block";
+
+        setTimeout(function() {
+          closeResultPopup();
+        }, 1200);
+      })
+      .catch(function(error) {
+        alert("Submission failed. Check your Apps Script deployment URL and permissions.");
+        if (window.console) {
+          console.error(error);
+        }
+      })
+      .finally(function() {
+        shareBtn.disabled = false;
+        shareBtn.textContent = "Share my info";
+      });
+    }
+
+    function resetAssessment() {
+      answers = {};
+
+      document.getElementById("resultsSection").className = "results";
+      document.getElementById("introSection").style.display = "block";
+      document.getElementById("assessmentSection").style.display = "none";
+      document.getElementById("popupSuccessMsg").style.display = "none";
+
+      var optionButtons = document.querySelectorAll(".option-btn");
+      optionButtons.forEach(function(btn) {
+        btn.classList.remove("active");
+        btn.setAttribute("aria-pressed", "false");
+      });
+
+      ["popupAge","popupSex","popupRace","popupEmail","popupPhone"].forEach(function(id) {
+        document.getElementById(id).value = "";
+      });
+
+      updateProgress();
+      closeResultPopup();
+      window.scrollTo(0, 0);
+    }
+
+    document.getElementById("startBtn").addEventListener("click", startAssessment);
+    document.getElementById("submitBtn").addEventListener("click", showResults);
+    document.getElementById("retakeBtn").addEventListener("click", resetAssessment);
+    document.getElementById("popupCloseBtn").addEventListener("click", closeResultPopup);
+    document.getElementById("skipPopupBtn").addEventListener("click", closeResultPopup);
+    document.getElementById("shareInfoBtn").addEventListener("click", submitPopupInfo);
+
+    document.getElementById("questionsContainer").addEventListener("click", function(event) {
+      var btn = event.target.closest(".option-btn");
+      if (!btn) return;
+
+      var questionId = Number(btn.getAttribute("data-question-id"));
+      var value = Number(btn.getAttribute("data-value"));
+
+      if (!questionId || !value) return;
+
+      setAnswer(questionId, value);
+    });
+
+    document.getElementById("resultPopupOverlay").addEventListener("click", function(event) {
+      if (event.target === this) {
+        closeResultPopup();
+      }
+    });
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape") {
+        closeResultPopup();
+      }
+    });
+  </script>
+</body>
+</html>
